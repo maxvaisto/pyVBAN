@@ -51,7 +51,7 @@ class VBAN_Sender:
                 frame_counter=self._frame_counter,
             )
 
-            data = header.to_bytes() + self._stream.read(self._samples_per_frame)
+            data = header.to_bytes() + self._stream.read(self._samples_per_frame, exception_on_overflow = False)
             data = data[:VBAN_PROTOCOL_MAX_SIZE]
 
             self._socket.sendto(data, self._receiver)
