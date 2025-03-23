@@ -36,6 +36,8 @@ class VBAN_Sender:
 
         self._frame_counter = 0
 
+        self._thread = None
+
         self._running = True
 
     def run_once(self):
@@ -62,10 +64,11 @@ class VBAN_Sender:
         self._running = True
         while self._running:
             self.run_once()
-        self.stop()
 
     def stop(self):
         self._running = False
+        if self._thread and self._thread.is_alive():
+            self._thread.join()
         self._stream.close()
         self._stream = None
 
